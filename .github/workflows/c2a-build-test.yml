@@ -1,0 +1,39 @@
+name: Test c2a-build workflow
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - '.github/workflows/c2a-build*.yml'
+
+jobs:
+  test_c2a_build:
+    name: test c2a-build
+    uses: ./.github/workflows/c2a-build.yml
+    with:
+      c2a_repo: ut-issl/c2a-core
+      c2a_dir: Examples/minimum_user
+      c2a_custom_setup: |
+        cd $GITHUB_WORKSPACE
+        ls -l
+        cd ./repo
+        pwd
+        ls -l
+        if [ $RUNNER_OS = 'Windows' ]; then
+          cmd "/C setup.bat"
+        else
+          ./setup.sh
+        fi
+      cmake_generator_linux32: Ninja
+      cmake_generator_win32: Ninja
+      cmake_flags_linux32: -DUSE_SCI_COM_WINGS=OFF
+      sils_mockup: true
+      build_as_cxx: true
+      reviewdog_default_reporter: github-check
+      reviewdog_default_filter: added
