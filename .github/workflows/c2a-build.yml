@@ -62,7 +62,7 @@ jobs:
         compiler: [gcc, clang]
         warning: [Werror, Wextra]
         exclude:
-          - compiler: gcc
+          - compiler: clang
             warning: Werror
 
     steps:
