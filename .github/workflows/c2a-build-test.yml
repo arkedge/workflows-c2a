@@ -9,8 +9,6 @@ on:
     branches:
       - main
   pull_request:
-    paths:
-      - '.github/workflows/c2a-build*.yml'
 
 jobs:
   test_c2a_build:
