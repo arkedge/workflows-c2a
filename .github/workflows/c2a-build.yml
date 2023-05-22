@@ -52,6 +52,9 @@ defaults:
   run:
     working-directory: ./c2a_user
 
+env:
+  SELF_VERSION: v1.2.0-beta.0
+
 jobs:
   build_linux32:
     name: Build for linux32
@@ -67,6 +70,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: arkedge/workflows-c2a
+          ref: ${{ env.SELF_VERSION }}
 
       - uses: ./action-c2a-build
         env:
@@ -91,6 +97,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: arkedge/workflows-c2a
+          ref: ${{ env.SELF_VERSION }}
 
       - uses: ./action-c2a-build
         with:
@@ -107,6 +116,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: arkedge/workflows-c2a
+          ref: ${{ env.SELF_VERSION }}
 
       - uses: ./action-c2a-build-win32
         with:
@@ -123,6 +135,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: arkedge/workflows-c2a
+          ref: ${{ env.SELF_VERSION }}
 
       - uses: ./action-c2a-build-win32
         with:
