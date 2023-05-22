@@ -75,6 +75,18 @@ runs:
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
+      if: inputs.build_as_cxx == 'false'
+      working-directory: ./c2a_user
+      shell: bash
+      run: |
+        cmake -B ./build \
+          -G "${{ inputs.cmake_generator }}" \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          ${{ (inputs.sils_mockup && '-DUSE_SILS_MOCKUP=ON') || '' }} \
+          ${{ inputs.cmake_flags }}
+
+    - name: CMake as C++
+      if: inputs.build_as_cxx == 'true'
       env:
         CC: clang
         CXX: clang++

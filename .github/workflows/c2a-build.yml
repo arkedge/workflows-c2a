@@ -67,53 +67,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        if: inputs.c2a_dir == '.'
-        with:
-          path: ./c2a_user
-          repository: ${{ inputs.c2a_repo }}
-          submodules: 'recursive'
-      - uses: actions/checkout@v3
-        if: inputs.c2a_dir != '.'
-        with:
-          path: ./repo
-          repository: ${{ inputs.c2a_repo }}
-          submodules: 'recursive'
-      - name: Link C2A user dir to ./c2a_user
-        working-directory: .
-        if: inputs.c2a_dir != '.'
-        run: ln -s ./repo/${{ inputs.c2a_dir }} ./c2a_user
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build libc6-dev-i386
-
-      - name: Check setup script exist
-        id: check_setup
-        continue-on-error: true
-        shell: bash
-        run: test -f setup.sh
-
-      - name: Setup
-        if: steps.check_setup.outcome == 'success'
-        run: ./setup.sh
-
-      - name: Custom Setup
-        if: inputs.c2a_custom_setup != ''
-        shell: bash
-        run: ${{ inputs.c2a_custom_setup }}
-
-      - name: CMake
+      - uses: ./action-c2a-build
         env:
           CC: ${{ matrix.compiler }}
-        run: |
-          cmake -B ./build \
-            -G "${{ inputs.cmake_generator_linux32 }}" \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }} \
-            -DADD_WERROR_FLAGS=${{ contains(matrix.warning, 'Werror') }} \
-            ${{ (inputs.sils_mockup && '-DUSE_SILS_MOCKUP=ON') || '' }} \
+        with:
+          c2a_repo: ${{ inputs.c2a_repo }}
+          c2a_dir: ${{ inputs.c2a_dir }}
+          c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
+          cmake_generator: ${{ inputs.cmake_generator_linux32 }}
+          cmake_flags: |
             ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }}
+            -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }}
+            -DADD_WERROR_FLAGS=${{ contains(matrix.warning, 'Werror') }}
 
       - name: reviewdog with clang-tidy -${{ matrix.warning }}
         if: matrix.compiler == 'clang'
@@ -123,15 +89,6 @@ jobs:
           reporter: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_reporter ) || 'github-check' }}
           filter_mode: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_filter ) || 'nofilter' }}
           workdir: ./c2a_user/build
-
-      - name: Build
-        run: cmake --build ./build
-
-      - name: Run executable by SILS mockup
-        if: inputs.sils_mockup
-        run: |
-          ls -lh ./build/C2A
-          timeout 3 ./build/C2A || exit 0
 
   build_linux32_cxx:
     if: inputs.build_as_cxx
