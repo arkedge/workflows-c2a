@@ -71,11 +71,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: workflows-c2a
           repository: arkedge/workflows-c2a
           ref: ${{ env.SELF_VERSION }}
 
-      - uses: ./workflows-c2a/action-c2a-build
+      - uses: ./action-c2a-build
         env:
           CC: ${{ matrix.compiler }}
         with:
@@ -99,11 +98,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: workflows-c2a
           repository: arkedge/workflows-c2a
           ref: ${{ env.SELF_VERSION }}
 
-      - uses: ./workflows-c2/action-c2a-build
+      - uses: ./action-c2a-build
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
           c2a_dir: ${{ inputs.c2a_dir }}
@@ -119,11 +117,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: workflows-c2a
           repository: arkedge/workflows-c2a
           ref: ${{ env.SELF_VERSION }}
 
-      - uses: ./workflows-c2/action-c2a-build-win32
+      - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
           c2a_dir: ${{ inputs.c2a_dir }}
@@ -139,11 +136,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: workflows-c2a
           repository: arkedge/workflows-c2a
           ref: ${{ env.SELF_VERSION }}
 
-      - uses: ./workflows-c2/action-c2a-build-win32
+      - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
           c2a_dir: ${{ inputs.c2a_dir }}
