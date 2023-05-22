@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./action-c2a-build
+      - uses: arkedge/workflows-c2a/action-c2a-build@${{ github.action_ref }}
         env:
           CC: ${{ matrix.compiler }}
         with:
