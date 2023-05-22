@@ -43,9 +43,11 @@ runs:
     - name: Link C2A user dir to ./c2a_user
       working-directory: .
       if: inputs.c2a_dir != '.'
+      shell: bash
       run: ln -s ./repo/${{ inputs.c2a_dir }} ./c2a_user
 
     - name: Install dependencies
+      shell: bash
       run: |
         sudo apt-get update
         sudo apt-get install -y ninja-build libc6-dev-i386 g++-multilib
@@ -58,6 +60,7 @@ runs:
 
     - name: Setup
       if: steps.check_setup.outcome == 'success'
+      shell: bash
       run: ./setup.sh
 
     - name: Custom Setup
@@ -69,6 +72,7 @@ runs:
       env:
         CC: clang
         CXX: clang++
+      shell: bash
       # ignore windows.h
       run: |
         cmake -B ./build \
@@ -79,4 +83,5 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: Build
+      shell: bash
       run: cmake --build ./build
