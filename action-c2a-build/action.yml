@@ -95,7 +95,7 @@ runs:
       run: cmake --build ./build
 
     - name: Run executable by SILS mockup
-      if: inputs.sils_mockup
+      if: inputs.sils_mockup == 'true'
       working-directory: ./c2a_user
       shell: bash
       run: |
