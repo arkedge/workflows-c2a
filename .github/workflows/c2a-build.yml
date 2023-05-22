@@ -80,15 +80,9 @@ jobs:
             ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }} \
             -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }} \
             -DADD_WERROR_FLAGS=${{ contains(matrix.warning, 'Werror') }}
-
-      - name: reviewdog with clang-tidy -${{ matrix.warning }}
-        if: matrix.compiler == 'clang'
-        uses: arkedge/action-clang-tidy@v1.0.0
-        with:
-          tool_name: clang-tidy -${{ matrix.warning }}
-          reporter: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_reporter ) || 'github-check' }}
-          filter_mode: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_filter ) || 'nofilter' }}
-          workdir: ./c2a_user/build
+          reviewdog_tool_name: clang-tidy -${{ matrix.warning }}
+          reviewdog_reporter: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_reporter ) || 'github-check' }}
+          reviewdog_filter_mode: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_filter ) || 'nofilter' }}
 
   build_linux32_cxx:
     if: inputs.build_as_cxx
