@@ -53,7 +53,7 @@ defaults:
     working-directory: ./c2a_user
 
 env:
-  SELF_VERSION: v1.2.0
+  SELF_VERSION: v1.2.1
 
 jobs:
   build_linux32:
