@@ -47,20 +47,24 @@ runs:
     - name: Check setup script exist
       id: check_setup
       continue-on-error: true
+      working-directory: ./c2a_user
       shell: bash
       run: test -f setup.bat
 
     - name: Setup
       if: steps.check_setup.outcome == 'success'
+      working-directory: ./c2a_user
       shell: cmd
       run: ./setup.bat
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
+      working-directory: ./c2a_user
       shell: bash
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
+      working-directory: ./c2a_user
       shell: bash
       run: |
         cmake -B ./build \
@@ -69,6 +73,7 @@ runs:
 
     - name: CMake as C++
       if: inputs.build_as_cxx
+      working-directory: ./c2a_user
       shell: bash
       run: |
         cmake -B ./build \
@@ -77,5 +82,6 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: Build
+      working-directory: ./c2a_user
       shell: bash
       run: cmake --build ./build
