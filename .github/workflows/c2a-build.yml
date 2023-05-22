@@ -77,8 +77,8 @@ jobs:
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           cmake_generator: ${{ inputs.cmake_generator_linux32 }}
           cmake_flags: |
-            ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }}
-            -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }}
+            ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }} \
+            -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }} \
             -DADD_WERROR_FLAGS=${{ contains(matrix.warning, 'Werror') }}
 
       - name: reviewdog with clang-tidy -${{ matrix.warning }}
