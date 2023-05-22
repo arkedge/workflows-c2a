@@ -1,0 +1,81 @@
+name: build-c2a-win32
+description: Build C2A user on Win32 by MSVC/MSVC++
+
+author: '@sksat'
+
+inputs:
+  c2a_repo:
+    type: string
+    default: ${{ github.repository }}
+  c2a_dir:
+    type: string
+    default: '.'
+  c2a_custom_setup:
+    type: string
+    default: ''
+  build_as_cxx:
+    type: boolean
+    default: true
+  cmake_generator:
+    type: string
+    default: 'Visual Studio 17 2022'
+  cmake_flags:
+    type: string
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+      if: inputs.c2a_dir == '.'
+      with:
+        path: ./c2a_user
+        repository: ${{ inputs.c2a_repo }}
+        submodules: 'recursive'
+    - uses: actions/checkout@v3
+      if: inputs.c2a_dir != '.'
+      with:
+        path: ./repo
+        repository: ${{ inputs.c2a_repo }}
+        submodules: 'recursive'
+    - name: Link C2A user dir to ./c2a_user
+      working-directory: .
+      if: inputs.c2a_dir != '.'
+      shell: cmd
+      run: mklink /j /d ".\\c2a_user" ".\\repo\\${{ inputs.c2a_dir }}"
+
+    - name: Check setup script exist
+      id: check_setup
+      continue-on-error: true
+      shell: bash
+      run: test -f setup.bat
+
+    - name: Setup
+      if: steps.check_setup.outcome == 'success'
+      shell: cmd
+      run: ./setup.bat
+
+    - name: Custom Setup
+      if: inputs.c2a_custom_setup != ''
+      shell: bash
+      run: ${{ inputs.c2a_custom_setup }}
+
+    - name: CMake
+      shell: bash
+      run: |
+        cmake -B ./build \
+          -G "${{ inputs.cmake_generator }}" \
+          ${{ inputs.cmake_flags }}
+
+    - name: CMake as C++
+      if: inputs.build_as_cxx
+      shell: bash
+      run: |
+        cmake -B ./build \
+          -G "${{ inputs.cmake_generator }}" \
+          -DBUILD_C2A_AS_CXX=ON \
+          ${{ inputs.cmake_flags }}
+
+    - name: Build
+      shell: bash
+      run: cmake --build ./build
