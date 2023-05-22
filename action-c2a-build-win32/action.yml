@@ -64,6 +64,7 @@ runs:
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
+      if: inputs.build_as_cxx == 'false'
       working-directory: ./c2a_user
       shell: bash
       run: |
@@ -72,7 +73,7 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: CMake as C++
-      if: inputs.build_as_cxx
+      if: inputs.build_as_cxx == 'true'
       working-directory: ./c2a_user
       shell: bash
       run: |
