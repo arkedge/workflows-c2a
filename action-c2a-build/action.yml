@@ -13,6 +13,9 @@ inputs:
   c2a_custom_setup:
     type: string
     default: ''
+  sils_mockup:
+    type: boolean
+    default: true
   build_as_cxx:
     type: boolean
     default: false
@@ -90,3 +93,11 @@ runs:
       working-directory: ./c2a_user
       shell: bash
       run: cmake --build ./build
+
+    - name: Run executable by SILS mockup
+      if: inputs.sils_mockup
+      working-directory: ./c2a_user
+      shell: bash
+      run: |
+        ls -lh ./build/C2A
+        timeout 3 ./build/C2A || exit 0
