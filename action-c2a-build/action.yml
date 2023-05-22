@@ -126,7 +126,7 @@ runs:
 
     - name: reviewdog with clang-tidy -${{ matrix.warning }}
       if: env.CC == 'clang'
-      uses: arkedge/action-clang-tidy@v1.0.0
+      uses: arkedge/action-clang-tidy@v1.0.1
       with:
         tool_name: ${{ inputs.reviewdog_tool_name }}
         reporter: ${{ inputs.reviewdog_reporter }}
