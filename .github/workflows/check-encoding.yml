@@ -6,6 +6,9 @@ on:
       c2a_core:
         type: boolean
         default: false
+      c2a_custom_setup:
+        type: string
+        default: ''
 
 jobs:
   check_encoding:
@@ -21,6 +24,12 @@ jobs:
           architecture: 'x64'
 
       - run: pip install chardet
+
+      - name: Custom Setup
+        if: inputs.c2a_custom_setup != ''
+        working-directory: ${{ inputs.c2a_dir }}
+        shell: bash
+        run: ${{ inputs.c2a_custom_setup }}
 
       - name: check_encoding for c2a-core
         if: inputs.c2a_core
