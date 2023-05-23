@@ -43,6 +43,7 @@ runs:
       with:
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
+        path: c2a_user
 
     - name: Install dependencies
       shell: bash
@@ -52,13 +53,13 @@ runs:
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
-      working-directory: ${{ inputs.c2a_dir }}
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
       if: inputs.build_as_cxx == 'false'
-      working-directory: ${{ inputs.c2a_dir }}
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: |
         cmake -B ./build \
@@ -72,7 +73,7 @@ runs:
       env:
         CC: clang
         CXX: clang++
-      working-directory: ${{ inputs.c2a_dir }}
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       # ignore windows.h
       run: |
@@ -84,13 +85,13 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: Build
-      working-directory: ${{ inputs.c2a_dir }}
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: cmake --build ./build
 
     - name: Run executable by SILS mockup
       if: inputs.sils_mockup == 'true'
-      working-directory: ${{ inputs.c2a_dir }}
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: |
         ls -lh ./build/C2A
