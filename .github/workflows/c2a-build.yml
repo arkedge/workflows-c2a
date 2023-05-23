@@ -48,10 +48,6 @@ on:
         type: string
         default: added
 
-defaults:
-  run:
-    working-directory: ./c2a_user
-
 env:
   SELF_VERSION: v1.2.1
 
