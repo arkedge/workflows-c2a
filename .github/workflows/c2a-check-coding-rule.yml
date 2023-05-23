@@ -21,10 +21,6 @@ jobs:
           python-version-file: .github/workflows/.python-version
           architecture: 'x64'
 
-      - name: Setup
-        shell: bash
-        run: ${{ github.action_path }}/../action-c2a-build/c2a-setup.sh ${{ inputs.c2a_dir }}
-
       - name: Custom Setup
         if: inputs.c2a_custom_setup != ''
         working-directory: ${{ inputs.c2a_dir }}
