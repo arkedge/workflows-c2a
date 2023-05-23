@@ -42,7 +42,7 @@ jobs:
         run: |
           sed 's/.\/src_core\///g' < /tmp/coding-rule.log \
           | > ./coding-rule.log \
-            sed 's/.\/src_user/${{ inputs.c2a_dir }}\/src\/src_user/g'
+            sed 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g'
           cat ./coding-rule.log
 
       - name: reviewdog(github-pr-review)
