@@ -27,27 +27,20 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
-      if: inputs.c2a_dir == '.'
       with:
+        repository: ${{ inputs.c2a_repo }}
+        submodules: 'recursive'
         path: ./c2a_user
-        repository: ${{ inputs.c2a_repo }}
-        submodules: 'recursive'
-    - uses: actions/checkout@v3
-      if: inputs.c2a_dir != '.'
-      with:
-        path: ./repo
-        repository: ${{ inputs.c2a_repo }}
-        submodules: 'recursive'
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
-      working-directory: ./c2a_user
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
       if: inputs.build_as_cxx == 'false'
-      working-directory: ./c2a_user
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: |
         cmake -B ./build \
@@ -56,7 +49,7 @@ runs:
 
     - name: CMake as C++
       if: inputs.build_as_cxx == 'true'
-      working-directory: ./c2a_user
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: |
         cmake -B ./build \
@@ -65,6 +58,6 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: Build
-      working-directory: ./c2a_user
+      working-directory: ./c2a_user/${{ inputs.c2a_dir }}
       shell: bash
       run: cmake --build ./build
