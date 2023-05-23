@@ -9,6 +9,9 @@ on:
       c2a_custom_setup:
         type: string
         default: ''
+      c2a_core:
+        type: boolean
+        default: false
 
 jobs:
   check_coding_rule:
@@ -46,6 +49,7 @@ jobs:
         uses: reviewdog/action-setup@v1.0.4
 
       - name: fix error log source file path for c2a-core
+        if: inputs.c2a_core == 'true'
         run: |
           sed -i 's/.\/src_core\///g' /tmp/coding-rule.log
           cat /tmp/coding-rule.log
