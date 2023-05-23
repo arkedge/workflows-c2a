@@ -45,10 +45,7 @@ jobs:
       - name: install reviewdog
         uses: reviewdog/action-setup@v1.0.4
 
-      - if: inputs.c2a_dir == '.'
-        run: cp /tmp/coding-rule.log ./coding-rule.log
       - name: fix error log source file path
-        if: inputs.c2a_dir != '.'
         run: |
           sed 's/.\/src_core\///g' < /tmp/coding-rule.log \
           | > ./coding-rule.log \
