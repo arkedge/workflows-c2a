@@ -1,0 +1,81 @@
+name: check coding rule
+
+on:
+  workflow_call:
+    inputs:
+      c2a_dir:
+        type: string
+        default: '.'
+      c2a_custom_setup:
+        type: string
+        default: ''
+      c2a_core:
+        type: boolean
+        default: false
+
+jobs:
+  check_coding_rule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: .github/workflows/.python-version
+          architecture: 'x64'
+
+      - name: Custom Setup
+        if: inputs.c2a_custom_setup != ''
+        working-directory: ${{ inputs.c2a_dir }}
+        shell: bash
+        run: ${{ inputs.c2a_custom_setup }}
+
+      - name: check coding rule
+        id: check
+        shell: bash -e {0}
+        continue-on-error: true
+        working-directory: ${{ inputs.c2a_dir }}/src
+        run: |
+          python ./src_core/Script/CI/check_coding_rule.py ./src_core/Script/CI/check_coding_rule.json | tee /tmp/coding-rule.log
+          status="${PIPESTATUS[0]}"
+          echo "status: ${status}"
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          exit "${status}"
+
+      - name: install reviewdog
+        uses: reviewdog/action-setup@v1.0.4
+
+      - name: fix error log source file path for c2a-core
+        if: inputs.c2a_core == 'true'
+        run: |
+          sed -i 's/.\/src_core\///g' /tmp/coding-rule.log
+          cat /tmp/coding-rule.log
+
+      - name: fix error log source file path
+        run: |
+          sed -i 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g' /tmp/coding-rule.log
+          cat /tmp/coding-rule.log
+
+      - name: reviewdog(github-pr-review)
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog \
+            -name 'check_coding_rule' \
+            -level error \
+            -fail-on-error=true \
+            -filter-mode=added \
+            -diff="git diff FETCH_HEAD" \
+            -reporter=github-pr-review \
+            -efm="%-GThe above files are invalid coding rule." \
+            -efm="%E%f: %l: %m" \
+            -efm="%Z%s" \
+            < /tmp/coding-rule.log
+
+      - name: exit
+        shell: bash
+        run: |
+          exit $(( "${{ steps.check.outputs.status }}" ))
