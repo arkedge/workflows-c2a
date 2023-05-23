@@ -49,7 +49,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: drop-auto-execute-setup
+  SELF_VERSION: v1.2.1
 
 jobs:
   build_linux32:
