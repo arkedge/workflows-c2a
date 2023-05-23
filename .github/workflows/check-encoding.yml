@@ -36,6 +36,6 @@ jobs:
         working-directory: ./Script/CI
         run: python ./check_encoding.py ./check_encoding.json
       - name: check_encoding
-        if: ! inputs.c2a_core
+        if: ${{ ! inputs.c2a_core }}
         working-directory: ./src/src_core/Script/CI
         run: python ./check_encoding.py ../../../src_user/Script/CI/check_encoding.json
