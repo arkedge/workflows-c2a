@@ -3,12 +3,12 @@ name: check encoding
 on:
   workflow_call:
     inputs:
+      c2a_dir:
+        type: string
+        default: '.'
       c2a_core:
         type: boolean
         default: false
-      c2a_custom_setup:
-        type: string
-        default: ''
 
 jobs:
   check_encoding:
@@ -25,17 +25,11 @@ jobs:
 
       - run: pip install chardet
 
-      - name: Custom Setup
-        if: inputs.c2a_custom_setup != ''
-        working-directory: ${{ inputs.c2a_dir }}
-        shell: bash
-        run: ${{ inputs.c2a_custom_setup }}
-
       - name: check_encoding for c2a-core
         if: inputs.c2a_core
         working-directory: ./Script/CI
         run: python ./check_encoding.py ./check_encoding.json
       - name: check_encoding
         if: ${{ ! inputs.c2a_core }}
-        working-directory: ./src/src_core/Script/CI
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/Script/CI
         run: python ./check_encoding.py ../../../src_user/Script/CI/check_encoding.json
