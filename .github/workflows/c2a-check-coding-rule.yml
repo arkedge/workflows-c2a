@@ -45,12 +45,15 @@ jobs:
       - name: install reviewdog
         uses: reviewdog/action-setup@v1.0.4
 
+      - name: fix error log source file path for c2a-core
+        run: |
+          sed -i 's/.\/src_core\///g' /tmp/coding-rule.log
+          cat /tmp/coding-rule.log
+
       - name: fix error log source file path
         run: |
-          sed 's/.\/src_core\///g' < /tmp/coding-rule.log \
-          | > ./coding-rule.log \
-            sed 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g'
-          cat ./coding-rule.log
+          sed -i 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g' /tmp/coding-rule.log
+          cat /tmp/coding-rule.log
 
       - name: reviewdog(github-pr-review)
         env:
@@ -66,7 +69,7 @@ jobs:
             -efm="%-GThe above files are invalid coding rule." \
             -efm="%E%f: %l: %m" \
             -efm="%Z%s" \
-            < coding-rule.log
+            < /tmp/coding-rule.log
 
       - name: exit
         shell: bash
