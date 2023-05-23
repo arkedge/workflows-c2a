@@ -31,24 +31,43 @@ runs:
         path: ./repo
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
+
     - name: Link C2A user dir to ./c2a_user
       working-directory: .
-      if: inputs.c2a_dir != '.'
+      if: inputs.c2a_dir != '.' && runner.os != 'Windows'
       shell: bash
       run: ln -s ./repo/${{ inputs.c2a_dir }} ./c2a_user
+    - name: Link C2A user dir to ./c2a_user
+      working-directory: .
+      if: inputs.c2a_dir != '.' && runner.os == 'Windows'
+      shell: cmd
+      run: mklink /j /d ".\\c2a_user" ".\\repo\\${{ inputs.c2a_dir }}"
 
     - name: Check setup script exist
       id: check_setup
+      if: inputs.c2a_dir != '.' && runner.os != 'Windows'
       continue-on-error: true
       working-directory: ./c2a_user
       shell: bash
       run: test -f setup.sh
+    - name: Check setup script exist
+      id: check_setup
+      if: inputs.c2a_dir != '.' && runner.os == 'Windows'
+      continue-on-error: true
+      working-directory: ./c2a_user
+      shell: bash
+      run: test -f setup.bat
 
     - name: Setup
-      if: steps.check_setup.outcome == 'success'
+      if: steps.check_setup.outcome == 'success' && runner.os != 'Windows'
       working-directory: ./c2a_user
       shell: bash
       run: ./setup.sh
+    - name: Setup
+      if: steps.check_setup.outcome == 'success' && runner.os == 'Windows'
+      working-directory: ./c2a_user
+      shell: cmd
+      run: ./setup.bat
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
