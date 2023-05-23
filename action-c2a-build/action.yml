@@ -40,17 +40,7 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
-      if: inputs.c2a_dir == '.'
-    - uses: actions/checkout@v3
-      if: inputs.c2a_dir == '.'
       with:
-        path: ./c2a_user
-        repository: ${{ inputs.c2a_repo }}
-        submodules: 'recursive'
-    - uses: actions/checkout@v3
-      if: inputs.c2a_dir != '.'
-      with:
-        path: ./repo
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
 
@@ -62,13 +52,13 @@ runs:
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
-      working-directory: ./c2a_user
+      working-directory: ${{ inputs.c2a_dir }}
       shell: bash
       run: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
       if: inputs.build_as_cxx == 'false'
-      working-directory: ./c2a_user
+      working-directory: ${{ inputs.c2a_dir }}
       shell: bash
       run: |
         cmake -B ./build \
@@ -82,7 +72,7 @@ runs:
       env:
         CC: clang
         CXX: clang++
-      working-directory: ./c2a_user
+      working-directory: ${{ inputs.c2a_dir }}
       shell: bash
       # ignore windows.h
       run: |
@@ -94,13 +84,13 @@ runs:
           ${{ inputs.cmake_flags }}
 
     - name: Build
-      working-directory: ./c2a_user
+      working-directory: ${{ inputs.c2a_dir }}
       shell: bash
       run: cmake --build ./build
 
     - name: Run executable by SILS mockup
       if: inputs.sils_mockup == 'true'
-      working-directory: ./c2a_user
+      working-directory: ${{ inputs.c2a_dir }}
       shell: bash
       run: |
         ls -lh ./build/C2A
@@ -113,4 +103,4 @@ runs:
         tool_name: ${{ inputs.reviewdog_tool_name }}
         reporter: ${{ inputs.reviewdog_reporter }}
         filter_mode: ${{ inputs.reviewdog_filter_mode }}
-        workdir: ./c2a_user/build
+        workdir: ./${{ inputs.c2a_dir }}/build
