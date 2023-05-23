@@ -46,7 +46,7 @@ runs:
         sudo apt-get install -y ninja-build libc6-dev-i386 g++-multilib
 
     - name: C2A setup
-      uses: arkedge/workflows-c2a/action-c2a-setup@split-c2a-setup-action
+      uses: ${{ github.action_path }}/../action-c2a-setup
       with:
         c2a_repo: ${{ inputs.c2a_repo }}
         c2a_dir: ${{ inputs.c2a_dir }}
