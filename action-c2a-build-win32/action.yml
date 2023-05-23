@@ -26,42 +26,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-      if: inputs.c2a_dir == '.'
+    - name: C2A setup
+      uses: arkedge/workflows-c2a/action-c2a-setup@split-c2a-setup-action
       with:
-        path: ./c2a_user
-        repository: ${{ inputs.c2a_repo }}
-        submodules: 'recursive'
-    - uses: actions/checkout@v3
-      if: inputs.c2a_dir != '.'
-      with:
-        path: ./repo
-        repository: ${{ inputs.c2a_repo }}
-        submodules: 'recursive'
-    - name: Link C2A user dir to ./c2a_user
-      working-directory: .
-      if: inputs.c2a_dir != '.'
-      shell: cmd
-      run: mklink /j /d ".\\c2a_user" ".\\repo\\${{ inputs.c2a_dir }}"
-
-    - name: Check setup script exist
-      id: check_setup
-      continue-on-error: true
-      working-directory: ./c2a_user
-      shell: bash
-      run: test -f setup.bat
-
-    - name: Setup
-      if: steps.check_setup.outcome == 'success'
-      working-directory: ./c2a_user
-      shell: cmd
-      run: ./setup.bat
-
-    - name: Custom Setup
-      if: inputs.c2a_custom_setup != ''
-      working-directory: ./c2a_user
-      shell: bash
-      run: ${{ inputs.c2a_custom_setup }}
+        c2a_repo: ${{ inputs.c2a_repo }}
+        c2a_dir: ${{ inputs.c2a_dir }}
+        c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
 
     - name: CMake
       if: inputs.build_as_cxx == 'false'
