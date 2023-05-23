@@ -18,9 +18,7 @@ jobs:
       c2a_repo: ut-issl/c2a-core
       c2a_dir: Examples/minimum_user
       c2a_custom_setup: |
-        cd $GITHUB_WORKSPACE
-        ls -l
-        cd ./repo
+        cd ../..
         pwd
         ls -l
         if [ $RUNNER_OS = 'Windows' ]; then
