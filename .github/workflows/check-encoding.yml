@@ -1,0 +1,35 @@
+name: check encoding
+
+on:
+  workflow_call:
+    inputs:
+      c2a_dir:
+        type: string
+        default: '.'
+      c2a_core:
+        type: boolean
+        default: false
+
+jobs:
+  check_encoding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: .github/workflows/.python-version
+          architecture: 'x64'
+
+      - run: pip install chardet
+
+      - name: check_encoding for c2a-core
+        if: inputs.c2a_core
+        working-directory: ./Script/CI
+        run: python ./check_encoding.py ./check_encoding.json
+      - name: check_encoding
+        if: ${{ ! inputs.c2a_core }}
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/Script/CI
+        run: python ./check_encoding.py ../../../src_user/Script/CI/check_encoding.json
