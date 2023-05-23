@@ -39,10 +39,6 @@ runs:
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
 
-    - name: Setup
-      shell: cmd
-      run: ${{ github.action_path }}/c2a-setup.bat ${{ inputs.c2a_dir }}
-
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
       working-directory: ./c2a_user

@@ -60,10 +60,6 @@ runs:
         sudo apt-get update
         sudo apt-get install -y ninja-build libc6-dev-i386 g++-multilib
 
-    - name: Setup
-      shell: bash
-      run: ${{ github.action_path }}/c2a-setup.sh ${{ inputs.c2a_dir }}
-
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
       working-directory: ./c2a_user
