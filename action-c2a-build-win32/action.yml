@@ -26,8 +26,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: copy setup action
+      shell: bash
+      run: cp -r ${{ github.action_path }}/../action-c2a-setup /tmp/
     - name: C2A setup
-      uses: ${{ github.action_path }}/../action-c2a-setup
+      uses: /tmp/action-c2a-setup
       with:
         c2a_repo: ${{ inputs.c2a_repo }}
         c2a_dir: ${{ inputs.c2a_dir }}
