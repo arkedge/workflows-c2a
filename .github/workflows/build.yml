@@ -49,7 +49,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: v1.2.1
+  SELF_VERSION: v2.0.0
 
 jobs:
   build_linux32:
