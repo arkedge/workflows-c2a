@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  check_coding_rule:
+    uses: ./.github/workflows/check-coding-rule.yml
+
+  check_encoding:
+    uses: ./.github/workflows/check-encoding.yml
