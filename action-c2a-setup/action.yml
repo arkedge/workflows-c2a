@@ -51,7 +51,7 @@ runs:
       shell: bash
       run: test -f setup.sh
     - name: Check setup script exist
-      id: check_setup
+      id: check_setup_win
       if: inputs.c2a_dir != '.' && runner.os == 'Windows'
       continue-on-error: true
       working-directory: ./c2a_user
@@ -64,7 +64,7 @@ runs:
       shell: bash
       run: ./setup.sh
     - name: Setup
-      if: steps.check_setup.outcome == 'success' && runner.os == 'Windows'
+      if: steps.check_setup_win.outcome == 'success' && runner.os == 'Windows'
       working-directory: ./c2a_user
       shell: cmd
       run: ./setup.bat
