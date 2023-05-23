@@ -38,24 +38,10 @@ runs:
         path: ./repo
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
-    - name: Link C2A user dir to ./c2a_user
-      working-directory: .
-      if: inputs.c2a_dir != '.'
-      shell: cmd
-      run: mklink /j /d ".\\c2a_user" ".\\repo\\${{ inputs.c2a_dir }}"
-
-    - name: Check setup script exist
-      id: check_setup
-      continue-on-error: true
-      working-directory: ./c2a_user
-      shell: bash
-      run: test -f setup.bat
 
     - name: Setup
-      if: steps.check_setup.outcome == 'success'
-      working-directory: ./c2a_user
       shell: cmd
-      run: ./setup.bat
+      run: ${{ github.action_path }}/c2a-setup.bat ${{ inputs.c2a_dir }}
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
