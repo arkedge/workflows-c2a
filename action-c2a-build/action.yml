@@ -53,11 +53,6 @@ runs:
         path: ./repo
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
-    - name: Link C2A user dir to ./c2a_user
-      working-directory: .
-      if: inputs.c2a_dir != '.'
-      shell: bash
-      run: ln -s ./repo/${{ inputs.c2a_dir }} ./c2a_user
 
     - name: Install dependencies
       shell: bash
@@ -65,18 +60,9 @@ runs:
         sudo apt-get update
         sudo apt-get install -y ninja-build libc6-dev-i386 g++-multilib
 
-    - name: Check setup script exist
-      id: check_setup
-      continue-on-error: true
-      working-directory: ./c2a_user
-      shell: bash
-      run: test -f setup.sh
-
     - name: Setup
-      if: steps.check_setup.outcome == 'success'
-      working-directory: ./c2a_user
       shell: bash
-      run: ./setup.sh
+      run: ${{ github.action_path }}/c2a-setup.sh ${{ inputs.c2a_dir }}
 
     - name: Custom Setup
       if: inputs.c2a_custom_setup != ''
