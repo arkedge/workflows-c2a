@@ -53,7 +53,7 @@ defaults:
     working-directory: ./c2a_user
 
 env:
-  SELF_VERSION: v1.2.1
+  SELF_VERSION: split-c2a-setup-script
 
 jobs:
   build_linux32:
