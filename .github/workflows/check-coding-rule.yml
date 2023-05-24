@@ -72,6 +72,7 @@ jobs:
             -reporter=github-pr-review \
             -efm="%-GThe above files are invalid coding rule." \
             -efm="%E%f: %l: %m" \
+            -efm="%C" \
             -efm="%Z%s" \
             < /tmp/coding-rule.log
 
