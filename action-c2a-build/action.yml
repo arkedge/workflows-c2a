@@ -65,6 +65,7 @@ runs:
         cmake -B ./build \
           -G "${{ inputs.cmake_generator }}" \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DBUILD_C2A_AS_CXX=OFF \
           ${{ (inputs.sils_mockup && '-DUSE_SILS_MOCKUP=ON') || '' }} \
           ${{ inputs.cmake_flags }}
 
