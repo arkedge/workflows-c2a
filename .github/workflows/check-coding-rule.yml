@@ -46,7 +46,7 @@ jobs:
         continue-on-error: true
         working-directory: ${{ inputs.c2a_dir }}/src
         run: |
-          python ${{ env.check_script }} ${{ env.config_file }} | tee /tmp/coding-rule.log
+          python ${{ env.check_script }} ${{ inputs.config_file }} | tee /tmp/coding-rule.log
           status="${PIPESTATUS[0]}"
           echo "status: ${status}"
           echo "status=${status}" >> "$GITHUB_OUTPUT"
