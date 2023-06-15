@@ -39,7 +39,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3.5.3
+    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
       with:
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
@@ -99,7 +99,7 @@ runs:
 
     - name: reviewdog with clang-tidy -${{ matrix.warning }}
       if: env.CC == 'clang'
-      uses: arkedge/action-clang-tidy@v1.0.1
+      uses: arkedge/action-clang-tidy@fb42e0e7f375e7e9932e5057d43c21ab02ea213b # v1.0.1
       with:
         tool_name: ${{ inputs.reviewdog_tool_name }}
         reporter: ${{ inputs.reviewdog_reporter }}
