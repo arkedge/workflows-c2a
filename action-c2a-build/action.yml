@@ -39,7 +39,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3.5.3
       with:
         repository: ${{ inputs.c2a_repo }}
         submodules: 'recursive'
