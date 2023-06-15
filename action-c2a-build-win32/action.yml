@@ -45,6 +45,7 @@ runs:
       run: |
         cmake -B ./build \
           -G "${{ inputs.cmake_generator }}" \
+          -DBUILD_C2A_AS_CXX=OFF \
           ${{ inputs.cmake_flags }}
 
     - name: CMake as C++
