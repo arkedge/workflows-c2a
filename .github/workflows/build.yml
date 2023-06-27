@@ -55,7 +55,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: gh-federation-repos
+  SELF_VERSION: v2.4.0-beta.0
 
 jobs:
   build_linux32:
