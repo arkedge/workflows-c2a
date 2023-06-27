@@ -6,6 +6,9 @@ on:
       c2a_repo:
         type: string
         default: ${{ github.repository }}
+      federation_repos:
+        type: string
+        default: ""
       c2a_dir:
         type: string
         default: '.'
@@ -75,6 +78,7 @@ jobs:
           CC: ${{ matrix.compiler }}
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           cmake_generator: ${{ inputs.cmake_generator_linux32 }}
@@ -100,6 +104,7 @@ jobs:
       - uses: ./action-c2a-build
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           build_as_cxx: true
@@ -119,6 +124,7 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           cmake_generator: ${{ inputs.cmake_generator_win32 }}
@@ -138,6 +144,7 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           build_as_cxx: true
