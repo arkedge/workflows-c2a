@@ -2,10 +2,16 @@ name: Build
 
 on:
   workflow_call:
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
     inputs:
       c2a_repo:
         type: string
         default: ${{ github.repository }}
+      federation_repos:
+        type: string
+        default: ""
       c2a_dir:
         type: string
         default: '.'
@@ -49,7 +55,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: v2.3.0
+  SELF_VERSION: v2.4.0-beta.0
 
 jobs:
   build_linux32:
@@ -75,6 +81,8 @@ jobs:
           CC: ${{ matrix.compiler }}
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           cmake_generator: ${{ inputs.cmake_generator_linux32 }}
@@ -100,6 +108,8 @@ jobs:
       - uses: ./action-c2a-build
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           build_as_cxx: true
@@ -119,6 +129,8 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           cmake_generator: ${{ inputs.cmake_generator_win32 }}
@@ -138,6 +150,8 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
           build_as_cxx: true

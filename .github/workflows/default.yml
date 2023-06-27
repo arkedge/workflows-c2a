@@ -2,13 +2,26 @@ name: CI
 
 on:
   workflow_call:
+    inputs:
+      federation_repos:
+        type: string
+        default: ""
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
 
   check_coding_rule:
+    secrets: inherit
     uses: ./.github/workflows/check-coding-rule.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
 
   check_encoding:
+    secrets: inherit
     uses: ./.github/workflows/check-encoding.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
