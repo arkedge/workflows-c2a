@@ -32,7 +32,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: arkedge/gh-federation@v3.1.0
+    - name: gh-federation
+      if: inputs.federation_repos != ""
+      uses: arkedge/gh-federation@v3.1.0
       with:
         endpoint: ${{ inputs.gh_federation_endpoint }}
         repos: ${{ inputs.federation_repos }}
