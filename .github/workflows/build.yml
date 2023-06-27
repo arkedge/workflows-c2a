@@ -2,6 +2,9 @@ name: Build
 
 on:
   workflow_call:
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
     inputs:
       c2a_repo:
         type: string
@@ -78,6 +81,7 @@ jobs:
           CC: ${{ matrix.compiler }}
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
@@ -104,6 +108,7 @@ jobs:
       - uses: ./action-c2a-build
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
@@ -124,6 +129,7 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
@@ -144,6 +150,7 @@ jobs:
       - uses: ./action-c2a-build-win32
         with:
           c2a_repo: ${{ inputs.c2a_repo }}
+          gh_federation_endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}

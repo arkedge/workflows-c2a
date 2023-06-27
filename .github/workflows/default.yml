@@ -6,15 +6,21 @@ on:
       federation_repos:
         type: string
         default: ""
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    secrets: inherit
     with:
       federation_repos: ${{ inputs.federation_repos }}
 
   check_coding_rule:
+    secrets: inherit
     uses: ./.github/workflows/check-coding-rule.yml
 
   check_encoding:
+    secrets: inherit
     uses: ./.github/workflows/check-encoding.yml

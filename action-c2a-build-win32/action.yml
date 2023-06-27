@@ -7,6 +7,9 @@ inputs:
   c2a_repo:
     type: string
     default: ${{ github.repository }}
+  gh_federation_endpoint:
+    type: string
+    default: ""
   federation_repos:
     type: string
     default: ""
@@ -31,7 +34,7 @@ runs:
   steps:
     - uses: arkedge/gh-federation@add-extraheader-repos-input
       with:
-        endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+        endpoint: ${{ inputs.gh_federation_endpoint }}
         repos: ${{ inputs.federation_repos }}
 
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
