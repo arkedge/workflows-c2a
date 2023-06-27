@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: gh-federation
         if: inputs.federation_repos != ''
-        uses: arkedge/gh-federation@v3.1.0
+        uses: arkedge/gh-federation@437d2b0433a7d4a009e311d176d18abd85626fa4 # v3.1.0
         with:
           endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           repos: ${{ inputs.federation_repos }}
