@@ -52,7 +52,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: v2.3.0
+  SELF_VERSION: gh-federation-repos
 
 jobs:
   build_linux32:
