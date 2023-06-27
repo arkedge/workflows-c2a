@@ -32,7 +32,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: arkedge/gh-federation@add-extraheader-repos-input
+    - uses: arkedge/gh-federation@v3.1.0
       with:
         endpoint: ${{ inputs.gh_federation_endpoint }}
         repos: ${{ inputs.federation_repos }}

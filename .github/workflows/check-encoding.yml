@@ -17,7 +17,7 @@ jobs:
   check_encoding:
     runs-on: ubuntu-latest
     steps:
-      - uses: arkedge/gh-federation@add-extraheader-repos-input
+      - uses: arkedge/gh-federation@v3.1.0
         with:
           endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           repos: ${{ inputs.federation_repos }}
