@@ -3,6 +3,9 @@ name: check coding rule
 on:
   workflow_call:
     inputs:
+      federation_repos:
+        type: string
+        default: ""
       c2a_dir:
         type: string
         default: '.'
@@ -25,6 +28,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: arkedge/gh-federation@add-extraheader-repos-input
+        with:
+          endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          repos: ${{ inputs.federation_repos }}
+
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
           submodules: recursive

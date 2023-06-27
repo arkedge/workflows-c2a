@@ -6,9 +6,6 @@ on:
       federation_repos:
         type: string
         default: ""
-    secrets:
-      GH_FEDERATION_ENDPOINT:
-        required: false
 
 jobs:
   build:
@@ -20,7 +17,11 @@ jobs:
   check_coding_rule:
     secrets: inherit
     uses: ./.github/workflows/check-coding-rule.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
 
   check_encoding:
     secrets: inherit
     uses: ./.github/workflows/check-encoding.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
