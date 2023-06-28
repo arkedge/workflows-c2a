@@ -18,7 +18,7 @@ on:
       config_file:
         type: string
         description: check_coding_rule config file(relative path from <C2A user>/src)
-        default: src_core/Script/CI/check_coding_rule.json
+        default: src_user/Script/CI/check_coding_rule.json
 
 env:
   check_script: ./src_core/Script/CI/check_coding_rule.py
