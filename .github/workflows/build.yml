@@ -60,7 +60,7 @@ env:
 jobs:
   build_linux32:
     name: Build for linux32
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -97,7 +97,7 @@ jobs:
   build_linux32_cxx:
     if: inputs.build_as_cxx
     name: Build as C++ for linux32
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
@@ -118,7 +118,7 @@ jobs:
 
   build_win32:
     name: Build for Win32 by MSVC
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
@@ -139,7 +139,7 @@ jobs:
   build_win32_cxx:
     if: inputs.build_as_cxx
     name: Build as C++ for Win32 by MSVC++
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
