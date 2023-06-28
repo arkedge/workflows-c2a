@@ -15,7 +15,7 @@ on:
 
 jobs:
   check_encoding:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: gh-federation
         if: inputs.federation_repos != ''
