@@ -43,7 +43,7 @@ jobs:
       - name: check config file
         id: config
         shell: bash
-        working-directory: ${{ inputs.c2a_dir }}/src
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/Script/CI
         run: |
           if [ -e "$USER_CONFIG_FILE" ]; then
             echo "config_file=${USER_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
