@@ -6,6 +6,9 @@ on:
       federation_repos:
         type: string
         default: ""
+      c2a_dir:
+        type: string
+        default: .
 
 jobs:
   build:
@@ -13,15 +16,18 @@ jobs:
     secrets: inherit
     with:
       federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
 
   check_coding_rule:
     secrets: inherit
     uses: ./.github/workflows/check-coding-rule.yml
     with:
       federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
 
   check_encoding:
     secrets: inherit
     uses: ./.github/workflows/check-encoding.yml
     with:
       federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
