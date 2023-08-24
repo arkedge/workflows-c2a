@@ -67,6 +67,14 @@ jobs:
             echo "config_file=${CORE_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: update config file
+        uses: jossef/action-set-json-field@7ea163261afe43847c06afab44419845339a6be2
+        with:
+          # FIXME: Dirty
+          file: ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }}
+          field: "c2a_root_dir"
+          value: ${{ github.workspace }}
+
       - name: check coding rule
         id: check
         shell: bash -e {0}
