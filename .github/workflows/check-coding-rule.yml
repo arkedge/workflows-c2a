@@ -21,6 +21,7 @@ on:
         default: src_user/Script/CI/check_coding_rule.json
 
 env:
+  # 設定ファイルなどのパスは <c2a-user>/src からの相対パス（TODO: c2a-user top からの相対パスにする）
   CORE_CONFIG_FILE: src_core/Script/CI/check_coding_rule.json
   check_script: ./src_core/Script/CI/check_coding_rule.py
 
@@ -73,7 +74,10 @@ jobs:
         continue-on-error: true
         working-directory: ${{ inputs.c2a_dir }}/src
         run: |
-          python ${{ env.check_script }} ${{ steps.config.outputs.config_file }} | tee /tmp/coding-rule.log
+          C2A_SRC_DIR="$(pwd)"
+          # このスクリプトはスクリプトと同じディレクトリで実行されることが多い（この workflow では一旦それを標準化する）
+          cd "$(dirname ${{ env.check_script }})"
+          python "$(basename ${{ env.check_script }})" "${C2A_SRC_DIR}/${{ steps.config.outputs.config_file }}" | tee /tmp/coding-rule.log
           status="${PIPESTATUS[0]}"
           echo "status: ${status}"
           echo "status=${status}" >> "$GITHUB_OUTPUT"
@@ -90,7 +94,8 @@ jobs:
 
       - name: fix error log source file path
         run: |
-          sed -i 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g' /tmp/coding-rule.log
+          C2A_SRC_DIR="$(cat ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }} | jq -r .c2a_root_dir)"
+          sed -i "s ${C2A_SRC_DIR} ${{ inputs.c2a_dir }}/src/ g" /tmp/coding-rule.log
           cat /tmp/coding-rule.log
 
       - name: reviewdog(github-pr-review)
