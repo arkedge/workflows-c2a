@@ -94,7 +94,8 @@ jobs:
 
       - name: fix error log source file path
         run: |
-          sed -i 's ./src_user ${{ inputs.c2a_dir }}/src/src_user g' /tmp/coding-rule.log
+          C2A_SRC_DIR="$(cat ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }} | jq -r .c2a_root_dir)"
+          sed -i "s ${C2A_SRC_DIR} ${{ inputs.c2a_dir }}/src/ g" /tmp/coding-rule.log
           cat /tmp/coding-rule.log
 
       - name: reviewdog(github-pr-review)
