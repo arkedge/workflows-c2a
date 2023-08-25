@@ -68,6 +68,19 @@ jobs:
             echo "config_file=${CORE_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: check config dirs
+        run: |
+          C2A_SRC_DIR="$(jq -r .c2a_root_dir < ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }})"
+          TARGET_DIRS="$(jq -r .target_dirs[] < ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }})"
+          echo ".c2a_root_dir: ${C2A_SRC_DIR}"
+          echo ".target_dirs: ${TARGET_DIRS}"
+          cd "${{ inputs.c2a_dir }}/src/$(dirname ${{ env.check_script }})"
+          echo "${TARGET_DIRS}" | while read -r target_dir; do
+            echo "target_dir: ${target_dir}"
+            ls "${C2A_SRC_DIR}/${target_dir}"
+            echo ""
+          done
+
       - name: check coding rule
         id: check
         shell: bash -e {0}
