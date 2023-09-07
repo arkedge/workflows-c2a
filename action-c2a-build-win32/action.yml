@@ -59,6 +59,7 @@ runs:
         cmake -B ./build \
           -G "${{ inputs.cmake_generator }}" \
           -DBUILD_C2A_AS_CXX=OFF \
+          -DC2A_BUILD_AS_CXX=OFF \
           ${{ inputs.cmake_flags }}
 
     - name: CMake as C++
@@ -69,6 +70,7 @@ runs:
         cmake -B ./build \
           -G "${{ inputs.cmake_generator }}" \
           -DBUILD_C2A_AS_CXX=ON \
+          -DC2A_BUILD_AS_CXX=ON \
           ${{ inputs.cmake_flags }}
 
     - name: Build
