@@ -19,7 +19,7 @@ on:
 env:
   # <c2a-user> からの相対パス
   config_file: ./check_coding_rule.json
-  check_script: ./src_core/script/ci/check_coding_rule.py
+  check_script: ./src/src_core/script/ci/check_coding_rule.py
 
 jobs:
   check_coding_rule:
