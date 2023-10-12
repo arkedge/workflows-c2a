@@ -27,7 +27,7 @@ jobs:
           ./setup.sh
         fi
       cmake_generator_linux32: Ninja
-      cmake_flags_linux32: -DUSE_SCI_COM_WINGS=OFF
+      cmake_flags_linux32: -DUSE_SCI_COM_WINGS=OFF -DC2A_USE_SCI_COM_WINGS=OFF
       sils_mockup: true
       build_as_cxx: true
       reviewdog_default_reporter: github-check
