@@ -80,7 +80,7 @@ runs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           -DBUILD_C2A_AS_CXX=OFF \
           -DC2A_BUILD_AS_CXX=OFF \
-          ${{ (inputs.sils_mockup && '-DUSE_SILS_MOCKUP=ON') || '' }} \
+          ${{ (inputs.sils_mockup && '-DUSE_SILS_MOCKUP=ON' '-DC2A_BUILD_WITH_SILS_MOCKUP=ON') || '' }} \
           ${{ inputs.cmake_flags }}
 
     - name: CMake as C++
