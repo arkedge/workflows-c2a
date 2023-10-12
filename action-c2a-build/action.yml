@@ -97,7 +97,7 @@ runs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           -DBUILD_C2A_AS_CXX=ON \
           -DC2A_BUILD_AS_CXX=ON \
-          -DUSE_SCI_COM_WINGS=OFF \
+          -DUSE_SCI_COM_WINGS=OFF -DC2A_USE_SCI_COM_WINGS=OFF \
           ${{ inputs.cmake_flags }}
 
     - name: Build
