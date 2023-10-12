@@ -55,7 +55,7 @@ on:
         default: added
 
 env:
-  SELF_VERSION: v4.5.1
+  SELF_VERSION: v4.5.2
 
 jobs:
   build_linux32:
