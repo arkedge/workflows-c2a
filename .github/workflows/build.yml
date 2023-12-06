@@ -23,7 +23,7 @@ on:
         default: true
       build_as_cxx:
         type: boolean
-        default: true
+        default: false
       cmake_generator_linux32:
         type: string
         default: 'Unix Makefiles'
