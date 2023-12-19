@@ -21,6 +21,9 @@ on:
       sils_mockup:
         type: boolean
         default: true
+      build_msvc:
+        type: boolean
+        default: false
       build_as_cxx:
         type: boolean
         default: false
@@ -117,6 +120,7 @@ jobs:
           cmake_flags: ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }}
 
   build_win32:
+    if: inputs.build_msvc
     name: Build for Win32 by MSVC
     runs-on: windows-2022
 
@@ -137,7 +141,7 @@ jobs:
           cmake_flags: ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_win32 }}
 
   build_win32_cxx:
-    if: inputs.build_as_cxx
+    if: inputs.build_as_cxx && inputs.build_msvc
     name: Build as C++ for Win32 by MSVC++
     runs-on: windows-2022
 

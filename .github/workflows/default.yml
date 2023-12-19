@@ -9,6 +9,9 @@ on:
       c2a_dir:
         type: string
         default: .
+      build_msvc:
+        type: boolean
+        default: false
       build_as_cxx:
         type: boolean
         default: false
@@ -20,6 +23,7 @@ jobs:
     with:
       federation_repos: ${{ inputs.federation_repos }}
       c2a_dir: ${{ inputs.c2a_dir }}
+      build_msvc: ${{ inputs.build_msvc }}
       build_as_cxx: ${{ inputs.build_as_cxx }}
 
   check_coding_rule:
