@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  workflow_call:
+    inputs:
+      federation_repos:
+        type: string
+        default: ""
+      c2a_dir:
+        type: string
+        default: .
+      build_msvc:
+        type: boolean
+        default: false
+      build_as_cxx:
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
+      build_msvc: ${{ inputs.build_msvc }}
+      build_as_cxx: ${{ inputs.build_as_cxx }}
+
+  check_coding_rule:
+    secrets: inherit
+    uses: ./.github/workflows/check-coding-rule-v4.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
+
+  check_encoding:
+    secrets: inherit
+    uses: ./.github/workflows/check-encoding.yml
+    with:
+      federation_repos: ${{ inputs.federation_repos }}
+      c2a_dir: ${{ inputs.c2a_dir }}
