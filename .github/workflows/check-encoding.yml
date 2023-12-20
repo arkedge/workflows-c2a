@@ -1,0 +1,64 @@
+name: check encoding
+
+on:
+  workflow_call:
+    inputs:
+      federation_repos:
+        type: string
+        default: ""
+      c2a_dir:
+        type: string
+        default: '.'
+      c2a_core:
+        type: boolean
+        default: false
+
+env:
+  # config file path from src/src_core/Script/CI
+  CORE_CONFIG_FILE: check_encoding.json
+  USER_CONFIG_FILE: ../../../src_user/script/ci/check_encoding.json
+
+jobs:
+  check_encoding:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: gh-federation
+        if: inputs.federation_repos != ''
+        uses: arkedge/gh-federation@437d2b0433a7d4a009e311d176d18abd85626fa4 # v3.1.0
+        with:
+          endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
+          repos: ${{ inputs.federation_repos }}
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          submodules: 'recursive'
+
+      - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        with:
+          python-version-file: .github/workflows/.python-version
+          architecture: 'x64'
+
+      - run: pip install chardet
+
+      - name: check config file
+        id: config
+        shell: bash
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/script/ci
+        run: |
+          if [ -e "$USER_CONFIG_FILE" ]; then
+            echo "config_file=${USER_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
+          else
+            echo "${USER_CONFIG_FILE} does not exist"
+            echo "fallback to c2a-core config file"
+
+            echo "config_file=${CORE_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: check_encoding for c2a-core
+        if: inputs.c2a_core
+        working-directory: ./script/ci
+        run: python ./check_encoding.py ./check_encoding.json
+      - name: check_encoding
+        if: ${{ ! inputs.c2a_core }}
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/script/ci
+        run: python ./check_encoding.py ${{ steps.config.outputs.config_file }}
