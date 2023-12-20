@@ -35,7 +35,7 @@ jobs:
 
   check_encoding:
     secrets: inherit
-    uses: ./.github/workflows/check-encoding.yml
+    uses: ./.github/workflows/check-encoding-v3.yml
     with:
       federation_repos: ${{ inputs.federation_repos }}
       c2a_dir: ${{ inputs.c2a_dir }}
