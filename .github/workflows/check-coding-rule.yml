@@ -15,15 +15,11 @@ on:
       c2a_core:
         type: boolean
         default: false
-      config_file:
-        type: string
-        description: check_coding_rule config file(relative path from <C2A user>/src)
-        default: src_user/Script/CI/check_coding_rule.json
 
 env:
-  # 設定ファイルなどのパスは <c2a-user>/src からの相対パス（TODO: c2a-user top からの相対パスにする）
-  CORE_CONFIG_FILE: src_core/Script/CI/check_coding_rule.json
-  check_script: ./src_core/Script/CI/check_coding_rule.py
+  # <c2a-user> からの相対パス
+  config_file: ./check_coding_rule.json
+  check_script: ./src/src_core/script/ci/check_coding_rule.py
 
 jobs:
   check_coding_rule:
@@ -52,45 +48,12 @@ jobs:
         shell: bash
         run: ${{ inputs.c2a_custom_setup }}
 
-      - name: check config file
-        id: config
-        shell: bash
-        env:
-          CONFIG_FILE: ${{ inputs.config_file }}
-        working-directory: ${{ inputs.c2a_dir }}/src
-        run: |
-          if [ -e "$CONFIG_FILE" ]; then
-            echo "config_file=${CONFIG_FILE}" >> "$GITHUB_OUTPUT"
-          else
-            echo "${CONFIG_FILE} does not exist"
-            echo "fallback to c2a-core config file"
-
-            echo "config_file=${CORE_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: check config dirs
-        run: |
-          C2A_SRC_DIR="$(jq -r .c2a_root_dir < ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }})"
-          TARGET_DIRS="$(jq -r .target_dirs[] < ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }})"
-          echo ".c2a_root_dir: ${C2A_SRC_DIR}"
-          echo ".target_dirs: ${TARGET_DIRS}"
-          cd "${{ inputs.c2a_dir }}/src/$(dirname ${{ env.check_script }})"
-          echo "${TARGET_DIRS}" | while read -r target_dir; do
-            echo "target_dir: ${target_dir}"
-            ls "${C2A_SRC_DIR}/${target_dir}"
-            echo ""
-          done
-
       - name: check coding rule
         id: check
         shell: bash -e {0}
         continue-on-error: true
-        working-directory: ${{ inputs.c2a_dir }}/src
         run: |
-          C2A_SRC_DIR="$(pwd)"
-          # このスクリプトはスクリプトと同じディレクトリで実行されることが多い（この workflow では一旦それを標準化する）
-          cd "$(dirname ${{ env.check_script }})"
-          python "$(basename ${{ env.check_script }})" "${C2A_SRC_DIR}/${{ steps.config.outputs.config_file }}" | tee /tmp/coding-rule.log
+          python ${{ inputs.c2a_dir }}/${{ env.check_script }} ${{ inputs.c2a_dir }}/${{ env.config_file }} | tee /tmp/coding-rule.log
           status="${PIPESTATUS[0]}"
           echo "status: ${status}"
           echo "status=${status}" >> "$GITHUB_OUTPUT"
@@ -102,13 +65,7 @@ jobs:
       - name: fix error log source file path for c2a-core
         if: inputs.c2a_core == 'true'
         run: |
-          sed -i 's/.\/src_core\///g' /tmp/coding-rule.log
-          cat /tmp/coding-rule.log
-
-      - name: fix error log source file path
-        run: |
-          C2A_SRC_DIR="$(cat ${{ inputs.c2a_dir }}/src/${{ steps.config.outputs.config_file }} | jq -r .c2a_root_dir)"
-          sed -i "s ${C2A_SRC_DIR} ${{ inputs.c2a_dir }}/src/ g" /tmp/coding-rule.log
+          sed -i 's#${{ inputs.c2a_dir }}/src/src_core/##g' /tmp/coding-rule.log
           cat /tmp/coding-rule.log
 
       - name: reviewdog(github-pr-review)

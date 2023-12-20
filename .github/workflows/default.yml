@@ -28,7 +28,7 @@ jobs:
 
   check_coding_rule:
     secrets: inherit
-    uses: ./.github/workflows/check-coding-rule-v4.yml
+    uses: ./.github/workflows/check-coding-rule.yml
     with:
       federation_repos: ${{ inputs.federation_repos }}
       c2a_dir: ${{ inputs.c2a_dir }}
