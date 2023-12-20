@@ -16,7 +16,7 @@ on:
 env:
   # config file path from src/src_core/Script/CI
   CORE_CONFIG_FILE: check_encoding.json
-  USER_CONFIG_FILE: ../../../src_user/script/ci/check_encoding.json
+  USER_CONFIG_FILE: ../../../src_user/Script/CI/check_encoding.json
 
 jobs:
   check_encoding:
@@ -43,7 +43,7 @@ jobs:
       - name: check config file
         id: config
         shell: bash
-        working-directory: ${{ inputs.c2a_dir }}/src/src_core/script/ci
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/Script/CI
         run: |
           if [ -e "$USER_CONFIG_FILE" ]; then
             echo "config_file=${USER_CONFIG_FILE}" >> "$GITHUB_OUTPUT"
@@ -56,9 +56,9 @@ jobs:
 
       - name: check_encoding for c2a-core
         if: inputs.c2a_core
-        working-directory: ./script/ci
+        working-directory: ./Script/CI
         run: python ./check_encoding.py ./check_encoding.json
       - name: check_encoding
         if: ${{ ! inputs.c2a_core }}
-        working-directory: ${{ inputs.c2a_dir }}/src/src_core/script/ci
+        working-directory: ${{ inputs.c2a_dir }}/src/src_core/Script/CI
         run: python ./check_encoding.py ${{ steps.config.outputs.config_file }}
