@@ -12,6 +12,9 @@ on:
       c2a_core:
         type: boolean
         default: false
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 env:
   # config file path from src/src_core/Script/CI

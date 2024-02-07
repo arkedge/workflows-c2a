@@ -18,6 +18,9 @@ on:
       reviewdog_version:
         type: string
         default: v0.16.0
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 jobs:
   build:
