@@ -64,7 +64,7 @@ on:
         required: false
 
 env:
-  SELF_VERSION: v5.4.0
+  SELF_VERSION: make-reviewdog-fail-on-error-configurable
 
 jobs:
   build_linux32:
