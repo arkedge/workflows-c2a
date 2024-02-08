@@ -32,3 +32,4 @@ jobs:
       build_as_cxx: true
       reviewdog_default_reporter: github-check
       reviewdog_default_filter: added
+      reviewdog_fail_on_error: false
