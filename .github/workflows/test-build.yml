@@ -30,6 +30,6 @@ jobs:
       cmake_flags_linux32: -DUSE_SCI_COM_WINGS=OFF -DC2A_USE_SCI_COM_WINGS=OFF
       sils_mockup: true
       build_as_cxx: true
-      reviewdog_default_reporter: github-check
+      reviewdog_default_reporter: github-pr-review
       reviewdog_default_filter: added
       reviewdog_fail_on_error: false
