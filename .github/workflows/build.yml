@@ -2,9 +2,6 @@ name: Build
 
 on:
   workflow_call:
-    secrets:
-      GH_FEDERATION_ENDPOINT:
-        required: false
     inputs:
       c2a_repo:
         type: string
@@ -59,6 +56,9 @@ on:
       reviewdog_default_filter:
         type: string
         default: added
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 env:
   SELF_VERSION: v5.1.0

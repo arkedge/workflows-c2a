@@ -18,6 +18,9 @@ on:
       reviewdog_version:
         type: string
         default: latest
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 env:
   # <c2a-user> からの相対パス

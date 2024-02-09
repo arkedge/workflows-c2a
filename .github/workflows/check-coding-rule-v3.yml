@@ -22,6 +22,9 @@ on:
       reviewdog_version:
         type: string
         default: latest
+    secrets:
+      GH_FEDERATION_ENDPOINT:
+        required: false
 
 env:
   # 設定ファイルなどのパスは <c2a-user>/src からの相対パス（TODO: c2a-user top からの相対パスにする）
