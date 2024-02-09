@@ -15,6 +15,9 @@ on:
       c2a_core:
         type: boolean
         default: false
+      reviewdog_version:
+        type: string
+        default: latest
 
 env:
   # <c2a-user> からの相対パス
@@ -61,6 +64,8 @@ jobs:
 
       - name: install reviewdog
         uses: reviewdog/action-setup@1d18b2938261447f64c39f831d7395e90ef5a40e # v1.2.1
+        with:
+          reviewdog_version: ${{ inputs.reviewdog_version }}
 
       - name: fix error log source file path for c2a-core
         if: inputs.c2a_core == 'true'

@@ -15,6 +15,9 @@ on:
       build_as_cxx:
         type: boolean
         default: false
+      reviewdog_version:
+        type: string
+        default: v0.16.0
 
 jobs:
   build:
@@ -25,6 +28,7 @@ jobs:
       c2a_dir: ${{ inputs.c2a_dir }}
       build_msvc: ${{ inputs.build_msvc }}
       build_as_cxx: ${{ inputs.build_as_cxx }}
+      reviewdog_version: ${{ inputs.reviewdog_version }}
 
   check_coding_rule:
     secrets: inherit
@@ -32,6 +36,7 @@ jobs:
     with:
       federation_repos: ${{ inputs.federation_repos }}
       c2a_dir: ${{ inputs.c2a_dir }}
+      reviewdog_version: ${{ inputs.reviewdog_version }}
 
   check_encoding:
     secrets: inherit
