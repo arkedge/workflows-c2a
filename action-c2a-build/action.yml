@@ -32,6 +32,9 @@ inputs:
     type: string
     default: ''
   # reviewdog
+  reviewdog_version:
+    type: string
+    default: latest
   reviewdog_tool_name:
     type: string
     default: clang-tidy
@@ -117,7 +120,7 @@ runs:
       if: env.CC == 'clang'
       uses: arkedge/action-clang-tidy@8faddab26ad258e389cef75916414df15c3a9544 # v1.5.0
       with:
-        reviewdog_version: v0.16.0
+        reviewdog_version: ${{ inputs.reviewdog_version }}
         tool_name: ${{ inputs.reviewdog_tool_name }}
         reporter: ${{ inputs.reviewdog_reporter }}
         filter_mode: ${{ inputs.reviewdog_filter_mode }}

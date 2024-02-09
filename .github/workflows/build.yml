@@ -50,6 +50,9 @@ on:
         type: string
         default: ''
       # reviewdog
+      reviewdog_version:
+        type: string
+        default: v0.16.0
       reviewdog_default_reporter:
         type: string
         default: github-pr-review
@@ -93,6 +96,7 @@ jobs:
             ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }} \
             -DADD_WEXTRA_FLAGS=${{ contains(matrix.warning, 'Wextra') }} \
             -DADD_WERROR_FLAGS=${{ contains(matrix.warning, 'Werror') }}
+          reviewdog_version: ${{ inputs.reviewdog_version }}
           reviewdog_tool_name: clang-tidy -${{ matrix.warning }}
           reviewdog_reporter: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_reporter ) || 'github-check' }}
           reviewdog_filter_mode: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_filter ) || 'nofilter' }}
