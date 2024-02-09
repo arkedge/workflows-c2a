@@ -44,6 +44,9 @@ inputs:
   reviewdog_filter_mode:
     type: string
     default: added
+  reviewdog_fail_on_error:
+    type: boolean
+    default: true
 
 runs:
   using: "composite"
@@ -125,3 +128,4 @@ runs:
         reporter: ${{ inputs.reviewdog_reporter }}
         filter_mode: ${{ inputs.reviewdog_filter_mode }}
         workdir: ./c2a_user/${{ inputs.c2a_dir }}/build
+        fail_on_error: ${{ inputs.reviewdog_fail_on_error }}
