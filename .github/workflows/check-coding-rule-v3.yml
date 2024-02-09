@@ -97,7 +97,7 @@ jobs:
           exit "${status}"
 
       - name: install reviewdog
-        uses: reviewdog/action-setup@154bb4214db7d87bdb814a346ec67b3472fe1c5f # v1.1.0
+        uses: reviewdog/action-setup@1d18b2938261447f64c39f831d7395e90ef5a40e # v1.2.1
 
       - name: fix error log source file path for c2a-core
         if: inputs.c2a_core == 'true'
