@@ -18,9 +18,10 @@ on:
       sils_mockup:
         type: boolean
         default: false
+      # skip gcc from build to support C89-like target
       skip_gcc:
         type: boolean
-        default: true
+        default: false
       build_msvc:
         type: boolean
         default: false
