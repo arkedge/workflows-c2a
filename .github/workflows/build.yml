@@ -61,7 +61,7 @@ on:
         required: false
 
 env:
-  SELF_VERSION: v5.2.0
+  SELF_VERSION: v5.4.0
 
 jobs:
   build_linux32:
