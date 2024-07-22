@@ -12,7 +12,7 @@ on:
       # skip gcc -Werror from build matrix to support C89-like target
       skip_gcc_werror:
         type: boolean
-        default: true
+        default: false
       build_msvc:
         type: boolean
         default: false
