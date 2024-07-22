@@ -18,6 +18,10 @@ on:
       sils_mockup:
         type: boolean
         default: false
+      # skip gcc from build to support C89-like target
+      skip_gcc:
+        type: boolean
+        default: false
       build_msvc:
         type: boolean
         default: false
@@ -72,9 +76,6 @@ jobs:
       matrix:
         compiler: [gcc, clang]
         warning: [Werror, Wextra]
-        exclude:
-          - compiler: gcc
-            warning: Werror
 
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -82,7 +83,9 @@ jobs:
           repository: arkedge/workflows-c2a
           ref: ${{ env.SELF_VERSION }}
 
-      - uses: ./action-c2a-build
+      - name: build
+        if: matrix.compiler != 'gcc' || (! inputs.skip_gcc)
+        uses: ./action-c2a-build
         env:
           CC: ${{ matrix.compiler }}
         with:
