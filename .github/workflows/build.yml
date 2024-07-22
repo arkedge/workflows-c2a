@@ -56,12 +56,15 @@ on:
       reviewdog_default_filter:
         type: string
         default: added
+      reviewdog_fail_on_error:
+        type: boolean
+        default: true
     secrets:
       GH_FEDERATION_ENDPOINT:
         required: false
 
 env:
-  SELF_VERSION: v5.4.0
+  SELF_VERSION: make-reviewdog-fail-on-error-configurable
 
 jobs:
   build_linux32:
@@ -100,6 +103,7 @@ jobs:
           reviewdog_tool_name: clang-tidy -${{ matrix.warning }}
           reviewdog_reporter: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_reporter ) || 'github-check' }}
           reviewdog_filter_mode: ${{ (!contains(matrix.warning, 'Wextra') && inputs.reviewdog_default_filter ) || 'nofilter' }}
+          reviewdog_fail_on_error: ${{ inputs.reviewdog_fail_on_error }}
 
   build_linux32_cxx:
     if: inputs.build_as_cxx
