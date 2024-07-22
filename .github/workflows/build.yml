@@ -123,7 +123,6 @@ jobs:
           federation_repos: ${{ inputs.federation_repos }}
           c2a_dir: ${{ inputs.c2a_dir }}
           c2a_custom_setup: ${{ inputs.c2a_custom_setup }}
-          sils_mockup: ${{ inputs.sils_mockup }}
           build_as_cxx: true
           cmake_generator: ${{ inputs.cmake_generator_linux32 }}
           cmake_flags: ${{ inputs.cmake_flags }} ${{ inputs.cmake_flags_linux32 }}
