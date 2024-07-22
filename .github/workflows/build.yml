@@ -17,7 +17,7 @@ on:
         default: ''
       sils_mockup:
         type: boolean
-        default: true
+        default: false
       build_msvc:
         type: boolean
         default: false
