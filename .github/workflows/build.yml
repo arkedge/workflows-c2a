@@ -70,7 +70,7 @@ env:
 jobs:
   build_linux32:
     name: Build for linux32
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -108,7 +108,7 @@ jobs:
   build_linux32_cxx:
     if: inputs.build_as_cxx
     name: Build as C++ for linux32
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
