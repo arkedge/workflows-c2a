@@ -41,7 +41,13 @@ jobs:
           python-version-file: .github/workflows/.python-version
           architecture: 'x64'
 
-      - run: pip install chardet
+      - uses: astral-sh/setup-uv@5a095e7a6bfc5cbace3fa00e5cbc1e4afe6a3ad0 # v7.3.1
+
+      - name: Checkout workflows-c2a for dependency lockfile
+        run: git clone --depth 1 https://github.com/arkedge/workflows-c2a.git /tmp/workflows-c2a
+
+      - name: Install dependencies
+        run: uv sync --project /tmp/workflows-c2a --no-dev
 
       - name: check config file
         id: config
@@ -60,8 +66,8 @@ jobs:
       - name: check_encoding for c2a-core
         if: inputs.c2a_core
         working-directory: ./script/ci
-        run: python ./check_encoding.py ./check_encoding.json
+        run: uv run --project /tmp/workflows-c2a python ./check_encoding.py ./check_encoding.json
       - name: check_encoding
         if: ${{ ! inputs.c2a_core }}
         working-directory: ${{ inputs.c2a_dir }}/src/src_core/script/ci
-        run: python ./check_encoding.py ${{ steps.config.outputs.config_file }}
+        run: uv run --project /tmp/workflows-c2a python ./check_encoding.py ${{ steps.config.outputs.config_file }}

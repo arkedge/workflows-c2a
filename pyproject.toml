@@ -1,0 +1,7 @@
+[project]
+name = "workflows-c2a"
+version = "0.0.0"
+requires-python = ">=3.8"
+dependencies = [
+    "chardet>=5,<7",
+]
