@@ -44,7 +44,7 @@ jobs:
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098 # v7.3.1
 
       - name: Checkout workflows-c2a for dependency lockfile
-        run: git clone --depth 1 https://github.com/arkedge/workflows-c2a.git /tmp/workflows-c2a
+        run: git clone --depth 1 -b feature/update-encoding https://github.com/arkedge/workflows-c2a.git /tmp/workflows-c2a
 
       - name: Install dependencies
         run: uv sync --project /tmp/workflows-c2a --no-dev
