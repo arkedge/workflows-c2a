@@ -53,6 +53,7 @@ on:
       # reviewdog
       reviewdog_version:
         type: string
+        # renovate: datasource=github-releases depName=reviewdog/reviewdog
         default: v0.16.0
       reviewdog_default_reporter:
         type: string

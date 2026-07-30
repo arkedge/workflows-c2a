@@ -34,7 +34,8 @@ inputs:
   # reviewdog
   reviewdog_version:
     type: string
-    default: latest
+    # renovate: datasource=github-releases depName=reviewdog/reviewdog
+    default: v0.16.0
   reviewdog_tool_name:
     type: string
     default: clang-tidy
