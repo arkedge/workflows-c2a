@@ -130,7 +130,7 @@ jobs:
   build_win32:
     if: inputs.build_msvc
     name: Build for Win32 by MSVC
-    runs-on: windows-2022
+    runs-on: windows-2025
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -151,7 +151,7 @@ jobs:
   build_win32_cxx:
     if: inputs.build_as_cxx && inputs.build_msvc
     name: Build as C++ for Win32 by MSVC++
-    runs-on: windows-2022
+    runs-on: windows-2025
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
