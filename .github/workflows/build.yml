@@ -65,9 +65,12 @@ on:
       GH_FEDERATION_ENDPOINT:
         required: false
 
-# Each job checks out this repository to run ./action-c2a-build{,-win32}.
-# github.job_workflow_sha is the commit SHA of this reusable workflow file, so the
-# actions always come from the same commit as the workflow the caller referenced.
+# 各ジョブは ./action-c2a-build{,-win32} を使うため、このリポジトリ自身を取得する。
+# github.job_workflow_sha は呼び出されたこのファイル自身のコミット SHA なので、
+# 呼び出す側が指定した版とアクションの版が常に一致する。
+#
+# 下の 4 箇所を actionlint が「job_workflow_sha は未定義」と報告するが、値は実行時に
+# 入る。actionlint のプロパティ一覧に無いだけ (rhysd/actionlint#671)。CI は成功のまま。
 jobs:
   build_linux32:
     name: Build for linux32
