@@ -22,7 +22,7 @@ on:
       reviewdog_version:
         type: string
         # renovate: datasource=github-releases depName=reviewdog/reviewdog
-        default: v0.16.0
+        default: v0.21.0
     secrets:
       GH_FEDERATION_ENDPOINT:
         required: false
