@@ -5,5 +5,18 @@
     "helpers:pinGitHubActionDigests"
   ],
   "additionalReviewers": ["sksat"],
-  "assignees": ["sksat"]
+  "assignees": ["sksat"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track reviewdog version pinned in reusable workflow / composite action input defaults",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/^action-[^/]+/action\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>\\S+?)\\s+default:\\s*(?<currentValue>\\S+)"
+      ]
+    }
+  ]
 }
