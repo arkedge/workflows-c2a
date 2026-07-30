@@ -65,9 +65,9 @@ on:
       GH_FEDERATION_ENDPOINT:
         required: false
 
-env:
-  SELF_VERSION: v6.0.2
-
+# Each job checks out this repository to run ./action-c2a-build{,-win32}.
+# github.job_workflow_sha is the commit SHA of this reusable workflow file, so the
+# actions always come from the same commit as the workflow the caller referenced.
 jobs:
   build_linux32:
     name: Build for linux32
@@ -82,7 +82,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.job_workflow_sha }}
 
       - name: build
         if: matrix.compiler != 'gcc' || (! inputs.skip_gcc)
@@ -115,7 +115,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.job_workflow_sha }}
 
       - uses: ./action-c2a-build
         with:
@@ -137,7 +137,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.job_workflow_sha }}
 
       - uses: ./action-c2a-build-win32
         with:
@@ -158,7 +158,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.job_workflow_sha }}
 
       - uses: ./action-c2a-build-win32
         with:
