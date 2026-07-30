@@ -50,7 +50,7 @@ runs:
   steps:
     - name: gh-federation
       if: inputs.federation_repos != ''
-      uses: arkedge/gh-federation@7fcfbfdb79bad94f98041c1fb9c317b9ae198011 # v4.0.1
+      uses: arkedge/gh-federation@b70375c8a9f3d653cf7c3e00e3047eafdb33f09c # v5.0.1
       with:
         endpoint: ${{ inputs.gh_federation_endpoint }}
         repos: ${{ inputs.federation_repos }}
