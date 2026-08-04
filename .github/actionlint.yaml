@@ -1,0 +1,6 @@
+paths:
+  .github/workflows/build.yml:
+    ignore:
+      # github.job_workflow_sha は実行時に値が入るが、actionlint のプロパティ一覧に
+      # 無いため未定義と報告される。rhysd/actionlint#671 が入ったらこの項目を削除する。
+      - 'property "job_workflow_sha" is not defined in object type'
