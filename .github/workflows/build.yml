@@ -65,6 +65,8 @@ on:
       GH_FEDERATION_ENDPOINT:
         required: false
 
+# 外部から呼ばれたときは SELF_VERSION (リリースごとに更新) のアクションを使う。
+# workflows-c2a 自身のテストでは実行中のコミットを使い、その PR 自身のアクション変更を検証する。
 env:
   SELF_VERSION: v6.0.2
 
@@ -82,7 +84,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.repository == 'arkedge/workflows-c2a' && github.sha || env.SELF_VERSION }}
 
       - name: build
         if: matrix.compiler != 'gcc' || (! inputs.skip_gcc)
@@ -115,7 +117,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.repository == 'arkedge/workflows-c2a' && github.sha || env.SELF_VERSION }}
 
       - uses: ./action-c2a-build
         with:
@@ -137,7 +139,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.repository == 'arkedge/workflows-c2a' && github.sha || env.SELF_VERSION }}
 
       - uses: ./action-c2a-build-win32
         with:
@@ -158,7 +160,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: arkedge/workflows-c2a
-          ref: ${{ env.SELF_VERSION }}
+          ref: ${{ github.repository == 'arkedge/workflows-c2a' && github.sha || env.SELF_VERSION }}
 
       - uses: ./action-c2a-build-win32
         with:
