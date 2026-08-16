@@ -32,6 +32,10 @@ jobs:
           endpoint: ${{ secrets.GH_FEDERATION_ENDPOINT }}
           repos: ${{ inputs.federation_repos }}
 
+      # toolchain-chipkit 等の大きい submodule clone の HTTP/2 間欠死対策
+      - name: Prefer HTTP/1.1 for git (large submodule clone flake)
+        run: git config --global http.version HTTP/1.1
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           submodules: 'recursive'
