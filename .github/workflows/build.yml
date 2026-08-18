@@ -66,7 +66,13 @@ on:
         required: false
 
 env:
-  SELF_VERSION: v6.0.2
+  # 本来はリリースタグを指す値。v6.0.2 に据え置かれているため、それ以降にアクション側へ
+  # 入れた修正が呼び出し側に届かない (#135)。中でも gh-federation v4.0.1 の
+  # base64 折り返しバグは、Authorization ヘッダに改行を混ぜて git fetch を
+  # HTTP/2 ストリームごと落とすため、呼び出し側の build が恒常的に赤になる。
+  # v6.0.3 のタグが打たれるまでの暫定として、修正済み (gh-federation v5.0.1) の
+  # main コミットを直接指す。タグ後は SELF_VERSION: v6.0.3 に戻す。
+  SELF_VERSION: c40b972d6a96657d8b2a27bef8d77c2e138690d0
 
 jobs:
   build_linux32:
